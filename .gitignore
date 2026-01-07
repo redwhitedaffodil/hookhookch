@@ -1,0 +1,27 @@
+# Build artifacts
+chesshook2
+*.exe
+
+# Generated files
+*.user.js
+!userscript/template.user.js
+
+# Configuration files
+db.json
+config.json
+
+# Temporary files
+/tmp/
+*.tmp
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

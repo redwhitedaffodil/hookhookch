@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChessHook Configuration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            margin-bottom: 30px;
+            color: #7289da;
+            font-size: 2.5em;
+        }
+        
+        .card {
+            background: #16213e;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: #0f3460;
+            border: none;
+            color: #a0a0a0;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background: #1a4d7a;
+        }
+        
+        .tab.active {
+            background: #16213e;
+            color: #7289da;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: #7289da;
+        }
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #ccc;
+            font-weight: 500;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            background: #0f3460;
+            color: #eee;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #7289da;
+        }
+        
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        input[type="color"] {
+            width: 100%;
+            height: 50px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-primary {
+            background: #7289da;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #43b581;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #f04747;
+            color: white;
+        }
+        
+        .actions {
+            margin-top: 30px;
+        }
+        
+        code {
+            background: #0f3460;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #7289da;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .status.success {
+            background: #43b58133;
+            color: #43b581;
+        }
+        
+        .status.error {
+            background: #f0474733;
+            color: #f04747;
+        }
+        
+        .info-box {
+            background: #0f3460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 ChessHook Configuration</h1>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('engine')">⚙️ Engine</button>
+            <button class="tab" onclick="showTab('server')">🌐 Server</button>
+            <button class="tab" onclick="showTab('userscript')">📜 Userscript</button>
+            <button class="tab" onclick="showTab('games')">🎮 Games</button>
+        </div>
+
+        <!-- Engine Tab -->
+        <div id="engine-tab" class="card tab-content active">
+            <h2>♟️ Engine Configuration</h2>
+            <label>Engine Path</label>
+            <input type="text" id="engine_path" value="stockfish" placeholder="/path/to/stockfish">
+            
+            <div class="row">
+                <div>
+                    <label>Threads</label>
+                    <input type="number" id="threads" value="4" min="1" max="64">
+                </div>
+                <div>
+                    <label>Hash (MB)</label>
+                    <input type="number" id="hash" value="256" min="16" max="32768">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div>
+                    <label>Depth</label>
+                    <input type="number" id="depth" value="20" min="1" max="100">
+                </div>
+                <div>
+                    <label>MultiPV</label>
+                    <input type="number" id="multipv" value="3" min="1" max="10">
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <strong>Note:</strong> Make sure Stockfish is installed and accessible from the specified path.
+            </div>
+        </div>
+
+        <!-- Server Tab -->
+        <div id="server-tab" class="card tab-content">
+            <h2>🌐 WebSocket Server</h2>
+            <label>Address</label>
+            <input type="text" id="address" value="localhost:8080" placeholder="localhost:8080">
+            
+            <label>
+                <input type="checkbox" id="auth_write" checked>
+                Require authentication for write operations
+            </label>
+            
+            <label>
+                <input type="checkbox" id="localhost_bypass" checked>
+                Bypass authentication for localhost connections
+            </label>
+            
+            <div class="info-box" style="margin-top: 20px;">
+                <p><strong>Passkey:</strong> <code id="passkey">Generate with "Start Server"</code></p>
+                <p style="margin-top: 10px; font-size: 0.9em; color: #aaa;">
+                    The passkey is randomly generated when the server starts. Use it to authenticate external clients.
+                </p>
+            </div>
+            
+            <div id="server-status" class="status" style="display: none;"></div>
+        </div>
+
+        <!-- Userscript Tab -->
+        <div id="userscript-tab" class="card tab-content">
+            <h2>📜 Generate Userscript</h2>
+            
+            <label>Engine Type</label>
+            <select id="script_engine">
+                <option value="betafish">Betafish (Built-in, weaker)</option>
+                <option value="external">External (WebSocket, Stockfish)</option>
+                <option value="random">Random (Testing only)</option>
+            </select>
+            
+            <label>
+                <input type="checkbox" id="auto_move">
+                Auto-move (play moves automatically)
+            </label>
+            
+            <label>Arrow Color</label>
+            <input type="color" id="arrow_color" value="#77ff77">
+            
+            <div class="info-box" style="margin-top: 20px;">
+                <strong>How to use:</strong>
+                <ol style="margin-left: 20px; margin-top: 10px;">
+                    <li>Install Tampermonkey or Greasemonkey extension in your browser</li>
+                    <li>Click "Download Userscript" below</li>
+                    <li>Open the downloaded file in your browser</li>
+                    <li>Tampermonkey will ask to install - click "Install"</li>
+                    <li>Navigate to chess.com and play a game</li>
+                </ol>
+            </div>
+            
+            <button class="btn btn-primary" onclick="generateUserscript()" style="margin-top: 20px;">
+                📥 Download Userscript
+            </button>
+            
+            <div id="userscript-status" class="status" style="display: none;"></div>
+        </div>
+
+        <!-- Games Tab -->
+        <div id="games-tab" class="card tab-content">
+            <h2>🎮 Live Games</h2>
+            
+            <div class="info-box">
+                <strong>⚠️ Note:</strong> Live game support via API requires reverse engineering chess.com's WebSocket protocol (CometD).
+                This feature is currently in development. Use the userscript approach for browser-based game playing.
+            </div>
+            
+            <label>Game Strategy</label>
+            <select id="game_strategy">
+                <option value="default">Default (2s think time)</option>
+                <option value="bullet">Bullet (0.5s think time)</option>
+                <option value="slow">Slow (5s think time)</option>
+            </select>
+            
+            <label>Time Mode</label>
+            <select id="time_mode">
+                <option value="legit">Legit (human-like delays)</option>
+                <option value="fast">Fast (minimal delays)</option>
+            </select>
+            
+            <div style="margin-top: 20px;">
+                <p style="color: #aaa;">
+                    Use the same account cookies from puzzles to play live games.
+                    The game commands will be available via CLI:
+                </p>
+                <code style="display: block; margin-top: 10px; padding: 10px;">
+                    ./chesshook2 game play<br>
+                    ./chesshook2 game playOne [username]<br>
+                    ./chesshook2 game seek [username] "5+0"
+                </code>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="saveConfig()">💾 Save Configuration</button>
+            <button class="btn btn-success" onclick="startServer()">▶️ Start Server</button>
+            <button class="btn btn-danger" onclick="stopServer()">⏹️ Stop Server</button>
+        </div>
+        
+        <div id="action-status" class="status" style="display: none;"></div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function showStatus(elementId, message, isError = false) {
+            const statusEl = document.getElementById(elementId);
+            statusEl.textContent = message;
+            statusEl.className = 'status ' + (isError ? 'error' : 'success');
+            statusEl.style.display = 'block';
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+        
+        async function generateUserscript() {
+            const config = {
+                engine: document.getElementById('script_engine').value,
+                autoMove: document.getElementById('auto_move').checked,
+                arrowColor: document.getElementById('arrow_color').value,
+                wsURL: 'ws://' + document.getElementById('address').value + '/ws',
+                passKey: document.getElementById('passkey').textContent
+            };
+            
+            try {
+                const resp = await fetch('/api/userscript', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(config)
+                });
+                
+                if (!resp.ok) {
+                    throw new Error('Failed to generate userscript');
+                }
+                
+                const blob = await resp.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'chesshook.user.js';
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                showStatus('userscript-status', '✓ Userscript downloaded successfully!');
+            } catch (err) {
+                showStatus('userscript-status', '✗ Error: ' + err.message, true);
+            }
+        }
+        
+        async function saveConfig() {
+            const config = {
+                enginePath: document.getElementById('engine_path').value,
+                threads: parseInt(document.getElementById('threads').value),
+                hash: parseInt(document.getElementById('hash').value),
+                depth: parseInt(document.getElementById('depth').value),
+                multipv: parseInt(document.getElementById('multipv').value),
+                address: document.getElementById('address').value,
+                authWrite: document.getElementById('auth_write').checked,
+                localhostBypass: document.getElementById('localhost_bypass').checked
+            };
+            
+            try {
+                const resp = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(config)
+                });
+                
+                if (!resp.ok) {
+                    throw new Error('Failed to save configuration');
+                }
+                
+                showStatus('action-status', '✓ Configuration saved successfully!');
+            } catch (err) {
+                showStatus('action-status', '✗ Error: ' + err.message, true);
+            }
+        }
+        
+        async function startServer() {
+            try {
+                const resp = await fetch('/api/server/start', {
+                    method: 'POST'
+                });
+                
+                if (!resp.ok) {
+                    throw new Error('Failed to start server');
+                }
+                
+                const data = await resp.json();
+                if (data.passkey) {
+                    document.getElementById('passkey').textContent = data.passkey;
+                }
+                
+                showStatus('action-status', '✓ Server started successfully!');
+                showStatus('server-status', 'Server is running on ' + document.getElementById('address').value);
+            } catch (err) {
+                showStatus('action-status', '✗ Error: ' + err.message, true);
+            }
+        }
+        
+        async function stopServer() {
+            try {
+                const resp = await fetch('/api/server/stop', {
+                    method: 'POST'
+                });
+                
+                if (!resp.ok) {
+                    throw new Error('Failed to stop server');
+                }
+                
+                showStatus('action-status', '✓ Server stopped successfully!');
+                document.getElementById('server-status').style.display = 'none';
+            } catch (err) {
+                showStatus('action-status', '✗ Error: ' + err.message, true);
+            }
+        }
+        
+        // Load config on page load
+        async function loadConfig() {
+            try {
+                const resp = await fetch('/api/config');
+                if (resp.ok) {
+                    const config = await resp.json();
+                    if (config.enginePath) document.getElementById('engine_path').value = config.enginePath;
+                    if (config.threads) document.getElementById('threads').value = config.threads;
+                    if (config.hash) document.getElementById('hash').value = config.hash;
+                    if (config.depth) document.getElementById('depth').value = config.depth;
+                    if (config.multipv) document.getElementById('multipv').value = config.multipv;
+                    if (config.address) document.getElementById('address').value = config.address;
+                    if (config.passkey) document.getElementById('passkey').textContent = config.passkey;
+                }
+            } catch (err) {
+                console.error('Failed to load config:', err);
+            }
+        }
+        
+        loadConfig();
+    </script>
+</body>
+</html>
