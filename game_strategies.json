@@ -1,0 +1,22 @@
+{
+  "strategies": [
+    {
+      "name": "default",
+      "think_time_ms": 2000,
+      "time_mode": "legit",
+      "auto_move": false
+    },
+    {
+      "name": "bullet",
+      "think_time_ms": 500,
+      "time_mode": "fast",
+      "auto_move": false
+    },
+    {
+      "name": "slow",
+      "think_time_ms": 5000,
+      "time_mode": "legit",
+      "auto_move": false
+    }
+  ]
+}
