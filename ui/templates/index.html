@@ -197,10 +197,10 @@
         <h1>🔧 ChessHook Configuration</h1>
         
         <div class="tabs">
-            <button class="tab active" onclick="showTab('engine')">⚙️ Engine</button>
-            <button class="tab" onclick="showTab('server')">🌐 Server</button>
-            <button class="tab" onclick="showTab('userscript')">📜 Userscript</button>
-            <button class="tab" onclick="showTab('games')">🎮 Games</button>
+            <button class="tab active" onclick="showTab('engine', event)">⚙️ Engine</button>
+            <button class="tab" onclick="showTab('server', event)">🌐 Server</button>
+            <button class="tab" onclick="showTab('userscript', event)">📜 Userscript</button>
+            <button class="tab" onclick="showTab('games', event)">🎮 Games</button>
         </div>
 
         <!-- Engine Tab -->
@@ -344,7 +344,7 @@
     </div>
 
     <script>
-        function showTab(tabName) {
+        function showTab(tabName, event) {
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
@@ -439,7 +439,10 @@
                 
                 const data = await resp.json();
                 if (data.passkey) {
-                    document.getElementById('passkey').textContent = data.passkey;
+                    // Mask passkey for security - show only first 8 chars
+                    const maskedKey = data.passkey.substring(0, 8) + '••••••••';
+                    document.getElementById('passkey').textContent = maskedKey;
+                    document.getElementById('passkey').title = 'Click Start Server to reveal full passkey';
                 }
                 
                 showStatus('action-status', '✓ Server started successfully!');

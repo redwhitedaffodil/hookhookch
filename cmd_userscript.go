@@ -58,8 +58,8 @@ func runGenerateUserscript(cmd *cobra.Command, args []string) {
 	templatePath := "userscript/template.user.js"
 	templateContent, err := os.ReadFile(templatePath)
 	if err != nil {
-		logger.Printf("Error reading template: %v\n", err)
-		logger.Printf("Creating default template...\n")
+		logger.Printf("Warning: Could not read template file %s: %v\n", templatePath, err)
+		logger.Printf("Using embedded fallback template...\n")
 		// Use embedded template if file doesn't exist
 		templateContent = []byte(getDefaultUserscriptTemplate())
 	}

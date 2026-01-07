@@ -94,11 +94,10 @@ func (s *UIServer) handleIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *UIServer) handleConfig(w http.ResponseWriter, r *http.Request) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-
 	switch r.Method {
 	case http.MethodGet:
+		s.mu.RLock()
+		defer s.mu.RUnlock()
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(s.config)
 
@@ -109,11 +108,9 @@ func (s *UIServer) handleConfig(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		s.mu.RUnlock()
 		s.mu.Lock()
 		s.config = &newConfig
 		s.mu.Unlock()
-		s.mu.RLock()
 
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(map[string]string{"status": "success"})

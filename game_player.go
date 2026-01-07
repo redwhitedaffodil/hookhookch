@@ -44,11 +44,9 @@ func (gp *GamePlayer) PlayGame() error {
 	
 	// Connect to game
 	if err := gameClient.ConnectToGame(gp.gameID); err != nil {
-		// If WebSocket connection fails, log but continue
-		// (implementation not complete yet)
+		// If WebSocket connection fails, return error with guidance
 		logger.Printf("[%s] WebSocket connection note: %v\n", gp.account.Username, err)
-		logger.Printf("[%s] Game playing via WebSocket requires chess.com protocol reverse engineering\n", gp.account.Username)
-		return fmt.Errorf("live game playing not yet fully implemented: %w", err)
+		return fmt.Errorf("live game playing not yet fully implemented - requires chess.com CometD protocol reverse engineering. Please use the userscript approach (./chesshook2 userscript generate) for browser-based game playing: %w", err)
 	}
 	
 	// Main game loop

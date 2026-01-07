@@ -186,10 +186,8 @@ func (e *ChessEngine) AnalyzePosition(fen string, thinkTime time.Duration) (*Eng
 						fmt.Sscanf(parts[i+1], "%d", &analysis.Time)
 					}
 				case "score":
-					if i+2 < len(parts) {
-						if parts[i+1] == "cp" {
-							fmt.Sscanf(parts[i+2], "%d", &analysis.Score)
-						}
+					if i+2 < len(parts) && parts[i+1] == "cp" {
+						fmt.Sscanf(parts[i+2], "%d", &analysis.Score)
 					}
 				case "pv":
 					if i+1 < len(parts) {
